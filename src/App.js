@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import './App.css'
 
 
 const App = () => {
@@ -19,19 +19,27 @@ const App = () => {
   const CleanResult = () => useResult('')
   const Calk = () => useResult(eval(result))
 
+
   const GetNum = (e) => {
     // useResult(result + e)
 
-    if (e == 'C') {
+    if (e === 'C') {
       DelLastSimbol()
       return
     }
-    if (e == 'AC') {
+    if (e === 'AC') {
       CleanResult()
       return
     }
-    if (e == '=') {
-      Calk()
+    if (e === '=') {
+
+
+      try {
+        Calk()
+      } catch (error) {
+        console.warn('некорреутные данные');
+        CleanResult()
+      }
       return
     }
 
@@ -39,14 +47,16 @@ const App = () => {
   }
 
   return (
-    <div>
-      <textarea disabled={true} value={result}></textarea>
-      <div className='btnWrapper'>
-        {
-          buttonArr.map((e, i) => {
-            return <button onClick={() => { GetNum(e) }} key={i}>{e}</button>
-          })
-        }
+    <div className='App'>
+      <div className="mainWrapper">
+        <div className="output">{result}</div>
+        <div className='btnWrapper'>
+          {
+            buttonArr.map((e, i) => {
+              return <button onClick={() => { GetNum(e) }} key={i}>{e}</button>
+            })
+          }
+        </div>
       </div>
     </div>
   );
